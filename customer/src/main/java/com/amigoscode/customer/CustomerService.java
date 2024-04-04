@@ -1,5 +1,6 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.clients.fraud.FraudClient;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -21,11 +23,13 @@ public class CustomerService {
 //        customerRepository.save(customer); // this way we can not get the id of the customer
         customerRepository.saveAndFlush(customer); // this way we can get the id of the customer
 
-        var fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8082/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId()
-        );
+//        var fraudCheckResponse = restTemplate.getForObject(
+//                "http://FRAUD/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,
+//                customer.getId()
+//        );
+
+        var fraudCheckResponse = fraudClient.isFraudster(customer.getId());
 
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("Customer is a fraudster");
