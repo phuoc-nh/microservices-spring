@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/customer.iml" filepath="$PROJECT_DIR$/customer.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/fraud.iml" filepath="$PROJECT_DIR$/fraud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification.iml" filepath="$PROJECT_DIR$/notification.iml" />
     </modules>
   </component>
 </project>
