@@ -16,6 +16,7 @@
     <module>eureka-server</module>
       <module>clients</module>
       <module>notification</module>
+      <module>apigw</module>
   </modules>
   <!-- FIXME change it to the project's website -->
 <!--  <url>http://www.example.com</url>-->
