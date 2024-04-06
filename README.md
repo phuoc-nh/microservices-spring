@@ -41,3 +41,10 @@
 - Can be used as service discovery to locate services by their namespace.
 
 ![img.png](Images/eureka.png)
+
+## Distributed tracing
+- Sleuth leverages logs by adding trace and span ids to the logs. Just install library and it will do the rest.
+- Zipkin is GUI that shows the trace of requests. In order to use it:
+  - Install Zipkin server by docker: `docker run -d -p 9411:9411 openzipkin/zipkin`
+  - Add `spring-cloud-starter-zipkin` dependency to the project.
+  - Add `spring.zipkin.baseUrl=http://localhost:9411` to the `application.properties` file.
