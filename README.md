@@ -48,3 +48,9 @@
   - Install Zipkin server by docker: `docker run -d -p 9411:9411 openzipkin/zipkin`
   - Add `spring-cloud-starter-zipkin` dependency to the project.
   - Add `spring.zipkin.baseUrl=http://localhost:9411` to the `application.properties` file.
+
+## Message queue
+- Allow asynchronous communication between services.
+- Could perform as load balancing, allow consumers to process messages at their own pace, prevent overloading during high traffic
+- Allow scale horizontally by adding more consumers to process messages concurrently.
+- In case of failure of a consumer, the message can be stored until the consumer is up again and process the message. Ensure no data lost.
