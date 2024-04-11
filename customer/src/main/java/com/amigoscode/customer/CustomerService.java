@@ -1,21 +1,17 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.amqp.RabbitMQMessageProducer;
 import com.amigoscode.clients.fraud.FraudClient;
-import com.amigoscode.clients.notification.NotificationClient;
 import com.amigoscode.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
-    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer producer;
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -32,15 +28,17 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("Customer is a fraudster");
         }
-        notificationClient.sendNotification(
-                NotificationRequest.builder()
-                        .customerId(customer.getId())
-                        .message("Welcome to our platform")
-                        .sender("Amigoscode")
-                        .toCustomerEmail(customer.getEmail())
-                        .build()
+        var notification = NotificationRequest.builder()
+                .customerId(customer.getId())
+                .message("Welcome to our platform")
+                .sender("Amigoscode")
+                .toCustomerEmail(customer.getEmail())
+                .build();
+        producer.publish(
+                notification,
+                "internal.exchange",
+                "internal.notification.routing-key"
         );
-        // send notification
     }
 
 

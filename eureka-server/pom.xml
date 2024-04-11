@@ -9,6 +9,15 @@
     <artifactId>eureka-server</artifactId>
     <name>Archetype - eureka-server</name>
     <url>http://maven.apache.org</url>
+    <packaging>jar</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
