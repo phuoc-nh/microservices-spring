@@ -54,3 +54,13 @@
 - Could perform as load balancing, allow consumers to process messages at their own pace, prevent overloading during high traffic
 - Allow scale horizontally by adding more consumers to process messages concurrently.
 - In case of failure of a consumer, the message can be stored until the consumer is up again and process the message. Ensure no data lost.
+
+## Jib to embed docker image build into maven (package phase)
+- From root pom.xml, add the following plugin:
+  - jib-maven-plugin as plugin
+  - Specify image name and tag `clipse-temurin:17` is java run time image
+  - Add execution phase to indicate when to build the image
+- From microservices, 
+  - Add profile to specify the image name and tag
+- To build the image, run `mvn clean package -P build-docker-image` (P is profile)
+
