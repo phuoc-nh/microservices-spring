@@ -64,3 +64,21 @@
   - Add profile to specify the image name and tag
 - To build the image, run `mvn clean package -P build-docker-image` (P is profile)
 
+## Kubernetes (K8s)
+- Cluster is set of nodes, node can be VM or physical machine
+  - Node can be a master node or worker node.
+  - Master node is responsible for managing the cluster
+  - Worker node is responsible for running the application.
+- Master node contains Control Plane which includes 
+  - API server:  All communications go through API server External and Internal. Expose Restful api on port 443. Frontend for the k8s control plane.
+  - Scheduler: Watch for new pods and assign them to nodes based on scheduling factors, check health, resources, port available and affinity rules...
+  - Cluster store: Store configuration and state of the cluster. It's a distributed key-value store.
+  - Control manager: Node controller, bring node alive if one dies. Watch api server for changes and make sure the cluster is in the desired state. 
+  - Cloud controller manager: Interact with cloud provider
+- Worker node: VM or physical machine, provides running environment for applications. 3 main components:
+  - Kubelet: Main agent running on each nod, receives Pod def from API server, interacts with Container runtime to run the pod, report status to master node (via API server)
+  - Container runtime: Pull images from docker registry, run containers, 
+  - Kube-proxy: Local cluster networking, each node gets unique IP,
+
+- Deploy a statefulSet, usually for database, message queue, cache, see code in `k8s/minikube/bootstrap/postgres` and picture below:
+  - ![img.png](Images/statefulSet.png)

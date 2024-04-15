@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication(
     scanBasePackages = {
@@ -17,6 +19,9 @@ import org.springframework.context.annotation.Bean;
 @EnableFeignClients(
     basePackages = "com.amigoscode.clients"
 )
+@PropertySources({
+        @PropertySource("classpath:clients-${spring.profiles.active}.properties")
+})
 public class NotificationApplication {
     public static void main(String[] args) {
         SpringApplication.run(NotificationApplication.class, args);
