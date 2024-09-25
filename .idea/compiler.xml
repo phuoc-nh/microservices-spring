@@ -18,9 +18,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="notification" />
         <module name="apigw" />
+        <module name="acommodation" />
         <module name="clients" />
         <module name="fraud" />
         <module name="amqp" />
+        <module name="tourism" />
+        <module name="transport" />
         <module name="eureka-server" />
         <module name="customer" />
       </profile>

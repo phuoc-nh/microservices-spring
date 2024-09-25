@@ -40,7 +40,7 @@
 - Eureka server is a centralized that maintains a list of all registered services and their instances.
 - Can be used as service discovery to locate services by their namespace.
 
-![img.png](Images/eureka.png)
+![img.png](Images/eureka.png)************
 
 ## Distributed tracing
 - Sleuth leverages logs by adding trace and span ids to the logs. Just install library and it will do the rest.
@@ -82,3 +82,5 @@
 
 - Deploy a statefulSet, usually for database, message queue, cache, see code in `k8s/minikube/bootstrap/postgres` and picture below:
   - ![img.png](Images/statefulSet.png)
+
+psql -h localhost -U postgres -d postgres
