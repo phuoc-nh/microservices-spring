@@ -1,39 +1,39 @@
 package com.amigoscode.transport;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor //
-public class Transport {
+@NoArgsConstructor
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long transportId;
+    private Long bookingId;
 
-    private String type;
-    private String model;
-    private Integer capacity;
-    private BigDecimal pricePerHour;
-    private Integer availableUnits;
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "transport_id", nullable = false)
+    private Transport transport;
+
+    private String customerName;
+    private String customerEmail;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private Integer numberOfPassengers;
+    private BigDecimal totalPrice;
+    private String status; // e.g., "confirmed", "cancelled"
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "transport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Booking> bookings;
 
     @PrePersist
     protected void onCreate() {
