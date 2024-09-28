@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,12 +18,32 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Reservation {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.AUTO
-    )
-    private Integer id;
-    private Integer accommodationId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long reservationId;
+
+    @ManyToOne
+    @JoinColumn(name = "accommodation_id", nullable = false)
+    private Accommodation accommodation;
+
+    private String customerName;
     private String customerEmail;
-    @CreationTimestamp
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private Integer numberOfGuests;
+    private BigDecimal totalPrice;
+    private String status; // e.g., "confirmed", "cancelled"
+
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

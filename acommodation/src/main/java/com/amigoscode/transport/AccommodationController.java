@@ -8,23 +8,24 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/accommodation")
 @Slf4j
-public record AccommodationController(AccommodationService accommodationService) {
+public record AccommodationController(AccommodationService accommodationService, AccommodationRepository accommodationRepository) {
 
-    @GetMapping
-    public List<AccommodationResponse> getAccommodation() {
-        return accommodationService.getAccommodation();
+    @GetMapping("/available")
+    public List<Accommodation> getAllAvailableAccommodations() {
+        return accommodationRepository.findAll();
     }
 
-//    @GetMapping
-//    public void hello() {
-//        log.info("Hello from AccommodationController");
-//        return;
-//    }
 
-    @PostMapping
-    public void bookTour(@RequestBody ReservationRequest reserveRequest) {
-        accommodationService.reserve(reserveRequest);
-        return;
+    @PostMapping("/reserve")
+    public Reservation reserveAccommodation(@RequestBody ReservationRequest reservationRequest) {
+        return accommodationService.reserveAccommodation(
+                reservationRequest.getAccommodationId(),
+                reservationRequest.getCustomerName(),
+                reservationRequest.getCustomerEmail(),
+                reservationRequest.getNumberOfGuests(),
+                reservationRequest.getCheckInDate(),
+                reservationRequest.getCheckOutDate()
+        );
     }
 
 }

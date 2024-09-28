@@ -1,11 +1,15 @@
 package com.amigoscode.transport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,17 +18,34 @@ import javax.persistence.*;
 @NoArgsConstructor //
 public class Accommodation {
     @Id
-    @SequenceGenerator(
-            name = "accommodation_id_sequence",
-            sequenceName = "accommodation_id_sequence"
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "accommodation_id_sequence"
-    )
-    private Integer id;
-    private String accommodationName;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long accommodationId;
+
+    private String name;
     private String description;
-    private Integer amount;
-    private Integer price;
+    private BigDecimal pricePerNight;
+    private String location;
+    private Integer maxGuests;
+    private Integer availableRooms;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "accommodation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Reservation> reservations;
+
+    // Getters and Setters
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

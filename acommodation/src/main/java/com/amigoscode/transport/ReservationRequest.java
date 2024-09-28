@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReservationRequest {
-    private String email;
-    private Integer accommodationId;
+    private Long accommodationId;
+    private String customerName;
+    private String customerEmail;
+    private Integer numberOfGuests;
+    private String checkInDate;
+    private String checkOutDate;
 }
