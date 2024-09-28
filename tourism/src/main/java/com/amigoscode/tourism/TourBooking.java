@@ -1,6 +1,5 @@
 package com.amigoscode.tourism;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,35 +8,31 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor //
-public class Tour {
+@NoArgsConstructor
+public class TourBooking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long tourId;
+    private Long bookingId;
 
-    private String name;
-    private String description;
-    private BigDecimal price;
-    private String duration;
-    private Integer maxParticipants;
-    private Integer availableSpots;
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "tour_id", nullable = false)
+    private Tour tour;
 
+    private String customerName;
+    private String customerEmail;
+    private Integer numberOfPeople;
+    private BigDecimal totalPrice;
+    private String status; // e.g., "confirmed", "cancelled"
+
+    private LocalDateTime bookingDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<TourBooking> bookings;
-
-    // Getters and Setters
 
     @PrePersist
     protected void onCreate() {

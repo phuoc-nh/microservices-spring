@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BookedTourRequest {
-    private String email;
-    private Integer tourId;
+//    private String email;
+//    private Integer tourId;
+
+    private Long tourId;
+    private String customerName;
+    private String customerEmail;
+    private Integer numberOfPeople;
 }
