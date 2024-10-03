@@ -18,39 +18,6 @@ public class AccommodationService {
     private final RabbitMQMessageProducer producer;
     private final AccommodationRepository accommodationRepository;
 
-//    public List<AccommodationResponse> getAccommodation() {
-//        var tours = accommodationRepository.findAll();
-//        var response = tours.stream()
-//                .map(t -> AccommodationResponse.builder()
-//                        .id(t.getId())
-//                        .name(t.getAccommodationName())
-//                        .description(t.getDescription())
-//                        .amount(t.getAmount())
-//                        .price(t.getPrice())
-//                        .build())
-//                .toList();
-//
-//        return response;
-//    }
-
-//    public void reserve(ReservationRequest reservationRequest) {
-//        var bookedTour = Reservation.builder()
-//                .accommodationId(reservationRequest.getAccommodationId())
-//                .customerEmail(reservationRequest.getEmail())
-//                .build();
-//        reservationRepository.save(bookedTour);
-//        var notification = NotificationRequest.builder()
-//                .customerId(1)
-//                .message("Confirmation of booking")
-//                .sender("Accommodation service")
-//                .toCustomerEmail(reservationRequest.getEmail())
-//                .build();
-//        producer.publish(
-//                notification,
-//                "internal.exchange",
-//                "internal.notification.routing-key"
-//        );
-//    }
 @Transactional
 public Reservation reserveAccommodation(Long accommodationId, String customerName, String customerEmail,
                                         Integer numberOfGuests, String checkInDate, String checkOutDate) {
@@ -81,7 +48,7 @@ public Reservation reserveAccommodation(Long accommodationId, String customerNam
 
             var notification = NotificationRequest.builder()
                     .customerId(1)
-                    .message("Confirmation of booking")
+                    .message("Your accommodation has been reserved successfully.")
                     .sender("Accommodation service")
                     .toCustomerEmail(customerEmail)
                     .build();

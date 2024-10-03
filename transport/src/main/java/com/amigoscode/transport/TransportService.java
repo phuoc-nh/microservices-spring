@@ -1,6 +1,7 @@
 package com.amigoscode.transport;
 
 import com.amigoscode.amqp.RabbitMQMessageProducer;
+import com.amigoscode.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,40 +17,6 @@ public class TransportService {
     private final TransportRepository transportRepository;
     private final BookedTransportRepository bookingRepository;
     private final RabbitMQMessageProducer producer;
-
-//    public List<TransportResponse> getTransports() {
-//        var tours = transportRepository.findAll();
-//        var response = tours.stream()
-//                .map(t -> TransportResponse.builder()
-//                        .id(t.getId())
-//                        .name(t.getTransportName())
-//                        .description(t.getDescription())
-//                        .amount(t.getAmount())
-//                        .price(t.getPrice())
-//                        .build())
-//                .toList();
-//
-//        return response;
-//    }
-
-//    public void bookTour(BookedTransportRequest bookedTourRequest) {
-//        var bookedTour = Booking.builder()
-//                .transportId(bookedTourRequest.getTourId())
-//                .customerEmail(bookedTourRequest.getEmail())
-//                .build();
-//        bookedTransportRepository.save(bookedTour);
-//        var notification = NotificationRequest.builder()
-//                .customerId(1)
-//                .message("Confirmation of booking")
-//                .sender("Tourism service")
-//                .toCustomerEmail(bookedTourRequest.getEmail())
-//                .build();
-//        producer.publish(
-//                notification,
-//                "internal.exchange",
-//                "internal.notification.routing-key"
-//        );
-//    }
 
     @Transactional
     public Booking bookTransport(Long transportId, String customerName, String customerEmail,
@@ -80,6 +47,19 @@ public class TransportService {
                 booking.setNumberOfPassengers(numberOfPassengers);
                 booking.setTotalPrice(totalPrice);
                 booking.setStatus("confirmed");
+
+                var notification = NotificationRequest.builder()
+                        .customerId(1)
+                        .message("Your transport has been booked successfully.")
+                        .sender("Accommodation service")
+                        .toCustomerEmail(customerEmail)
+                        .build();
+
+                producer.publish(
+                        notification,
+                        "internal.exchange",
+                        "internal.notification.routing-key"
+                );
 
                 return bookingRepository.save(booking);
             } else {

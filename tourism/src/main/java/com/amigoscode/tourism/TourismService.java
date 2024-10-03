@@ -16,38 +16,6 @@ public class TourismService {
     private final BookedTourRepository tourBookingRepository;
     private final RabbitMQMessageProducer producer;
 
-//    public List<TourResponse> getTours() {
-//        var tours = tourRepository.findAll();
-//        var response = tours.stream()
-//                .map(t -> TourResponse.builder()
-//                        .id(t.getTourId())
-//                        .name(t.getTourName())
-//                        .description(t.getDescription())
-//                        .amount(t.getAmount())
-//                        .build())
-//                .toList();
-//
-//        return response;
-//    }
-
-//    public void bookTour(BookedTourRequest bookedTourRequest) {
-//        var bookedTour = BookedTour.builder()
-//                .tourId(bookedTourRequest.getTourId())
-//                .customerEmail(bookedTourRequest.getEmail())
-//                .build();
-//        bookedTourRepository.save(bookedTour);
-//        var notification = NotificationRequest.builder()
-//                .customerId(1)
-//                .message("Confirmation of booking")
-//                .sender("Tourism service")
-//                .toCustomerEmail(bookedTourRequest.getEmail())
-//                .build();
-//        producer.publish(
-//                notification,
-//                "internal.exchange",
-//                "internal.notification.routing-key"
-//        );
-//    }
 
     @Transactional
     public TourBooking bookTour(Long tourId, String customerName, String customerEmail, Integer numberOfPeople) {
@@ -61,16 +29,6 @@ public class TourismService {
                 tour.setAvailableSpots(tour.getAvailableSpots() - numberOfPeople);
                 tourRepository.save(tour);
 
-                // Create a new booking
-//                TourBooking booking = new TourBooking();
-
-//                booking.setTour(tour);
-//                booking.setCustomerName(customerName);
-//                booking.setCustomerEmail(customerEmail);
-//                booking.setNumberOfPeople(numberOfPeople);
-//                booking.setTotalPrice(tour.getPrice().multiply(BigDecimal.valueOf(numberOfPeople)));
-//                booking.setStatus("confirmed");
-//                booking.setBookingDate(java.time.LocalDateTime.now());
 
                 TourBooking booking = TourBooking.builder()
                         .tour(tour)
@@ -86,7 +44,7 @@ public class TourismService {
                 // handle notifications
                 var notification = NotificationRequest.builder()
                         .customerId(1)
-                        .message("Confirmation of booking")
+                        .message("Your tour has been booked successfully.")
                         .sender("Tourism service")
                         .toCustomerEmail(customerEmail)
                         .build();
