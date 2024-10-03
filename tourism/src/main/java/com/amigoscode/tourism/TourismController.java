@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/tourism")
 @Slf4j
-public record TourismController(TourismService tourismService, TourRepository tourRepository) {
+public record TourismController(TourismService tourismService, TourRepository tourRepository, BookedTourRepository bookedTourRepository) {
 
 //    @GetMapping
 //    public List<TourResponse> getTours() {
@@ -24,6 +24,11 @@ public record TourismController(TourismService tourismService, TourRepository to
     @GetMapping("/tours")
     public List<Tour> getAllTours() {
         return tourRepository.findAll();
+    }
+
+    @GetMapping("/bookings")
+    public List<TourBooking> getAllBookings() {
+        return bookedTourRepository.findAll();
     }
 
     @PostMapping("/book")

@@ -8,11 +8,16 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/transport")
 @Slf4j
-public record TransportController(TransportService transportService, TransportRepository transportRepository) {
+public record TransportController(TransportService transportService, TransportRepository transportRepository, BookedTransportRepository bookedTransportRepository) {
 
     @GetMapping("/available")
     public List<Transport> getAllAvailableTransport() {
         return transportRepository.findAll();
+    }
+
+    @GetMapping("/bookings")
+    public List<Booking> getAllBookings() {
+        return bookedTransportRepository.findAll();
     }
 
     @PostMapping("/book")

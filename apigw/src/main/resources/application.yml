@@ -3,6 +3,8 @@ server:
 
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: api-gateway
   zipkin:
@@ -10,10 +12,38 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: customer
-          uri: lb://CUSTOMER
+#        - id: customer
+#          uri: lb://CUSTOMER
+#          predicates:
+#            - Path=/api/v1/customers/**
+
+        - id: local
+          uri: http://localhost:8085
           predicates:
-            - Path=/api/v1/customers/**
+            - Path=/api/v1/tourism/**
+
+        - id: local
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/v1/transport/**
+
+        - id: local
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/v1/accommodation/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
 
 eureka:
   client:
