@@ -1,0 +1,30 @@
+server:
+  port: 8086
+
+
+spring:
+  application:
+    name: accommodation
+  datasource:
+    username: 'postgres'
+    password: 'postgres'
+    url: 'jdbc:postgresql://localhost:5433/accommodation'
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  zipkin:
+    base-url: http://localhost:9411
+  rabbitmq:
+    addresses: localhost:5672
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: false

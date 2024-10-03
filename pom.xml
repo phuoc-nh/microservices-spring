@@ -12,12 +12,15 @@
   <name>amigoseservices</name>
   <modules>
     <module>customer</module>
-      <module>fraud</module>
+    <module>fraud</module>
     <module>eureka-server</module>
-      <module>clients</module>
-      <module>notification</module>
-      <module>apigw</module>
-      <module>amqp</module>
+    <module>clients</module>
+    <module>notification</module>
+    <module>apigw</module>
+    <module>amqp</module>
+    <module>tourism</module>
+      <module>acommodation</module>
+    <module>transport</module>
   </modules>
   <!-- FIXME change it to the project's website -->
 <!--  <url>http://www.example.com</url>-->

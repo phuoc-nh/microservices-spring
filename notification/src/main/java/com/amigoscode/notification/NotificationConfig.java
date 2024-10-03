@@ -1,6 +1,5 @@
 package com.amigoscode.notification;
 
-import lombok.Getter;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
